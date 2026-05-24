@@ -2,6 +2,7 @@ from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from datetime import datetime
+import logging
 from .const import (
     CONF_SENSOR1,
     CONF_SENSOR2,
@@ -13,6 +14,8 @@ from .const import (
     CONF_TIME_SONNE,
     CONF_TIME_WOLKE,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add_entities):
     """Setup über ConfigFlow."""
@@ -47,14 +50,26 @@ class HelligkeitLogicSensor(SensorEntity):
         }
 
     async def async_update(self):
-        h1 = float(self.hass.states.get(self.cfg[CONF_SENSOR1]).state or 0)
-        h2 = float(self.hass.states.get(self.cfg[CONF_SENSOR2]).state or 0)
-        elev = float(self.hass.states.get(self.cfg[CONF_ELEVATION]).state or 0)
+        try:
+            h1_state = self.hass.states.get(self.cfg[CONF_SENSOR1])
+            h2_state = self.hass.states.get(self.cfg[CONF_SENSOR2])
+            elev_state = self.hass.states.get(self.cfg[CONF_ELEVATION])
+            
+            h1 = float(h1_state.state if h1_state else 0)
+            h2 = float(h2_state.state if h2_state else 0)
+            elev = float(elev_state.state if elev_state else 0)
+            
+            _LOGGER.debug(f"Sensoren: h1={h1}, h2={h2}, elev={elev}")
+        except Exception as e:
+            _LOGGER.error(f"Fehler beim Lesen der Sensorwerte: {e}")
+            return
 
         sonne1 = self.cfg[CONF_SONNE1]
         wolke1 = self.cfg[CONF_WOLKE1]
         sonne2 = self.cfg[CONF_SONNE2]
         wolke2 = self.cfg[CONF_WOLKE2]
+        
+        _LOGGER.debug(f"Konfiguration: sonne1={sonne1}, wolke1={wolke1}, sonne2={sonne2}, wolke2={wolke2}")
 
         elev_max = 65
 
@@ -67,7 +82,9 @@ class HelligkeitLogicSensor(SensorEntity):
             sonne1_b = sonne1
             sonne2_b = sonne2
             wolke1_b = wolke1
-            wolke2_b = wolke2
+            wolke2_b = 
+        
+        _LOGGER.debug(f"Status: {status}, zustand: {self.zustand}, diff: {diff if 'diff' in locals() else 'N/A'}")wolke2
 
         if h1 < 10 and h2 < 5:
             status = 0
@@ -118,5 +135,7 @@ class HelligkeitLogicSensor(SensorEntity):
             self._state = "Wolkig"
         elif self.zustand == 2:
             self._state = "Sonnig"
+        
+        _LOGGER.debug(f"State aktualisiert: {self._state}")
         else:
             self._state = "Unbekannt"
