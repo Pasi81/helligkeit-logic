@@ -15,12 +15,12 @@ class HelligkeitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Required(CONF_SENSOR2): selector.EntitySelector({"domain": "sensor"}),
             vol.Required(CONF_ELEVATION): selector.EntitySelector({"domain": "sensor"}),
 
-            vol.Required(CONF_SONNE1, default=30000): int,
-            vol.Required(CONF_WOLKE1, default=15000): int,
+            vol.Required(CONF_SONNE1, default=8000): int,
+            vol.Required(CONF_WOLKE1, default=3000): int,
             vol.Required(CONF_SONNE2, default=8000): int,
             vol.Required(CONF_WOLKE2, default=3000): int,
 
-            vol.Required(CONF_TIME_SONNE, default=5): int,
+            vol.Required(CONF_TIME_SONNE, default=3): int,
             vol.Required(CONF_TIME_WOLKE, default=40): int,
         })
 
