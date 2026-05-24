@@ -1,9 +1,23 @@
 from homeassistant.components.sensor import SensorEntity
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 from datetime import datetime
-from .const import *
+from .const import (
+    CONF_SENSOR1,
+    CONF_SENSOR2,
+    CONF_ELEVATION,
+    CONF_SONNE1,
+    CONF_WOLKE1,
+    CONF_SONNE2,
+    CONF_WOLKE2,
+    CONF_TIME_SONNE,
+    CONF_TIME_WOLKE,
+)
 
-async def async_setup_platform(hass, config, add_entities, discovery_info=None):
-    add_entities([HelligkeitLogicSensor(hass, discovery_info)], True)
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add_entities):
+    """Setup über ConfigFlow."""
+    add_entities([HelligkeitLogicSensor(hass, entry.data)], True)
+
 
 class HelligkeitLogicSensor(SensorEntity):
     _attr_name = "Helligkeit Logik"
@@ -29,7 +43,7 @@ class HelligkeitLogicSensor(SensorEntity):
             "zustand": self.zustand,
             "wechsel_zu_sonne": self.wechsel_sonne,
             "wechsel_zu_wolken": self.wechsel_wolken,
-            "last_change": self.last_change.isoformat()
+            "last_change": self.last_change.isoformat(),
         }
 
     async def async_update(self):
@@ -55,7 +69,6 @@ class HelligkeitLogicSensor(SensorEntity):
             wolke1_b = wolke1
             wolke2_b = wolke2
 
-        # Status bestimmen
         if h1 < 10 and h2 < 5:
             status = 0
         elif h1 > 100 and h2 > 50 and elev >= 2:
@@ -71,7 +84,6 @@ class HelligkeitLogicSensor(SensorEntity):
         now = datetime.now()
         diff = (now - self.last_change).total_seconds() / 60
 
-        # Hysterese
         if status == 0:
             self.zustand = 0
             self.wechsel_sonne = 0
@@ -100,7 +112,6 @@ class HelligkeitLogicSensor(SensorEntity):
                 self.wechsel_sonne = 0
                 self.wechsel_wolken = 0
 
-        # Textzustand
         if self.zustand == 0:
             self._state = "Nacht"
         elif self.zustand == 1:
