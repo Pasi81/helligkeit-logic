@@ -82,9 +82,9 @@ class HelligkeitLogicSensor(SensorEntity):
             sonne1_b = sonne1
             sonne2_b = sonne2
             wolke1_b = wolke1
-            wolke2_b = 
+            wolke2_b = wolke2
         
-        _LOGGER.debug(f"Status: {status}, zustand: {self.zustand}, diff: {diff if 'diff' in locals() else 'N/A'}")wolke2
+        _LOGGER.debug(f"Status: {status}, zustand: {self.zustand}, diff: {diff if 'diff' in locals() else 'N/A'}")
 
         if h1 < 10 and h2 < 5:
             status = 0
