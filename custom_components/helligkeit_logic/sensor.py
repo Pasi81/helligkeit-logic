@@ -84,8 +84,6 @@ class HelligkeitLogicSensor(SensorEntity):
             wolke1_b = wolke1
             wolke2_b = wolke2
         
-        _LOGGER.debug(f"Status: {status}, zustand: {self.zustand}, diff: {diff if 'diff' in locals() else 'N/A'}")
-
         if h1 < 10 and h2 < 5:
             status = 0
         elif h1 > 100 and h2 > 50 and elev >= 2:
@@ -100,6 +98,8 @@ class HelligkeitLogicSensor(SensorEntity):
 
         now = datetime.now()
         diff = (now - self.last_change).total_seconds() / 60
+        
+        _LOGGER.debug(f"Status: {status}, zustand: {self.zustand}, diff: {diff}")
 
         if status == 0:
             self.zustand = 0
@@ -135,7 +135,7 @@ class HelligkeitLogicSensor(SensorEntity):
             self._state = "Wolkig"
         elif self.zustand == 2:
             self._state = "Sonnig"
-        
-        _LOGGER.debug(f"State aktualisiert: {self._state}")
         else:
             self._state = "Unbekannt"
+        
+        _LOGGER.debug(f"State aktualisiert: {self._state}")
