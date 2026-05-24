@@ -8,9 +8,11 @@ class HelligkeitConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         if user_input is not None:
-            return self.async_create_entry(title="Helligkeits-Logik", data=user_input)
+            return self.async_create_entry(title=user_input.get(CONF_NAME, DEFAULT_NAME), data=user_input)
 
         schema = vol.Schema({
+            vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
+            
             vol.Required(CONF_SENSOR1): selector.EntitySelector({"domain": "sensor"}),
             vol.Required(CONF_SENSOR2): selector.EntitySelector({"domain": "sensor"}),
             vol.Required(CONF_ELEVATION): selector.EntitySelector({"domain": "sensor"}),

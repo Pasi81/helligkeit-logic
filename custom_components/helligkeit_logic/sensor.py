@@ -4,6 +4,7 @@ from homeassistant.core import HomeAssistant
 from datetime import datetime
 import logging
 from .const import (
+    CONF_NAME,
     CONF_SENSOR1,
     CONF_SENSOR2,
     CONF_ELEVATION,
@@ -13,6 +14,7 @@ from .const import (
     CONF_WOLKE2,
     CONF_TIME_SONNE,
     CONF_TIME_WOLKE,
+    DEFAULT_NAME,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -23,12 +25,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add_entitie
 
 
 class HelligkeitLogicSensor(SensorEntity):
-    _attr_name = "Helligkeit Logik"
-    _attr_unique_id = "helligkeit_logic_main"
 
     def __init__(self, hass, cfg):
         self.hass = hass
         self.cfg = cfg
+
+        integration_name = cfg.get(CONF_NAME, DEFAULT_NAME)
+        self._attr_name = f"{integration_name} Status"
+        self._attr_unique_id = f"{integration_name.lower().replace(' ', '_')}_status"
+        self._attr_icon = "mdi:brightness-auto"
+        self._attr_native_unit_of_measurement = None
 
         self._state = "Unbekannt"
         self.last_change = datetime.now()
