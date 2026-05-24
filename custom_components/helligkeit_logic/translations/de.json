@@ -1,0 +1,11 @@
+{
+  "title": "Helligkeits-Logik",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Helligkeits-Logik konfigurieren",
+        "description": "Wähle Sensoren und Schwellenwerte."
+      }
+    }
+  }
+}

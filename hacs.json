@@ -1,0 +1,8 @@
+{
+  "name": "Helligkeits-Logik",
+  "content_in_root": false,
+  "domains": ["helligkeit_logic"],
+  "country": "DE",
+  "homeassistant": "2024.1.0",
+  "render_readme": true
+}
