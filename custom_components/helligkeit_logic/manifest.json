@@ -2,7 +2,7 @@
   "domain": "helligkeit_logic",
   "name": "Helligkeits-Logik",
   "version": "0.0.7",
-  "documentation": "https://github.com/DEINNAME/helligkeit-logic",
+  "documentation": "https://github.com/Pasi81/helligkeit-logic",
   "requirements": [],
   "codeowners": ["@Pasi81"],
   "iot_class": "local_polling",
