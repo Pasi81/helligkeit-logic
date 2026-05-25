@@ -44,12 +44,12 @@ class HelligkeitLogicSensor(SensorEntity):
 
     @property
     def state(self):
-        return self._state
+        return self.zustand
 
     @property
     def extra_state_attributes(self):
         return {
-            "zustand": self.zustand,
+            "zustand_text": self._state,
             "wechsel_zu_sonne": self.wechsel_sonne,
             "wechsel_zu_wolken": self.wechsel_wolken,
             "last_change": self.last_change.isoformat(),
@@ -143,5 +143,6 @@ class HelligkeitLogicSensor(SensorEntity):
             self._state = "Sonnig"
         else:
             self._state = "Unbekannt"
+            self.zustand = -1
         
         _LOGGER.debug(f"State aktualisiert: {self._state}")
