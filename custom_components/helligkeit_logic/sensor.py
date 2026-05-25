@@ -78,8 +78,9 @@ class HelligkeitLogicSensor(SensorEntity):
         _LOGGER.debug(f"Konfiguration: sonne1={sonne1}, wolke1={wolke1}, sonne2={sonne2}, wolke2={wolke2}")
 
         elev_max = 65
+        elevmin = 3
 
-        if elev >= 2:
+        if elev >= elevmin:
             sonne1_b = sonne1 * elev / elev_max
             sonne2_b = sonne2 * elev / elev_max
             wolke1_b = wolke1 * elev / elev_max
@@ -90,9 +91,9 @@ class HelligkeitLogicSensor(SensorEntity):
             wolke1_b = wolke1
             wolke2_b = wolke2
         
-        if h1 < 10 and h2 < 5:
+        if h1 < 10 and h2 < 5 or elev < elevmin:
             status = 0
-        elif h1 > 100 and h2 > 50 and elev >= 2:
+        elif h1 > 100 and h2 > 50 and elev >= elevmin:
             if h1 > sonne1_b or h2 > sonne2_b:
                 status = 2
             elif h1 < wolke1_b and h2 < wolke2_b:
