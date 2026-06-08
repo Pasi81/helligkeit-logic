@@ -21,18 +21,19 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add_entities):
     """Setup über ConfigFlow."""
-    add_entities([HelligkeitLogicSensor(hass, entry.data)], True)
+    add_entities([HelligkeitLogicSensor(hass, entry)], True)
 
 
 class HelligkeitLogicSensor(SensorEntity):
 
-    def __init__(self, hass, cfg):
+    def __init__(self, hass, entry: ConfigEntry):
         self.hass = hass
-        self.cfg = cfg
+        self.entry = entry
+        self.cfg = {**entry.data, **entry.options}
 
-        integration_name = cfg.get(CONF_NAME, DEFAULT_NAME)
+        integration_name = self.cfg.get(CONF_NAME, DEFAULT_NAME)
         self._attr_name = f"{integration_name} Status"
-        self._attr_unique_id = f"{integration_name.lower().replace(' ', '_')}_status"
+        self._attr_unique_id = f"{entry.entry_id}_status"
         self._attr_icon = "mdi:brightness-auto"
         self._attr_native_unit_of_measurement = None
 
