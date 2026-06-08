@@ -57,19 +57,23 @@ class HelligkeitLogicSensor(SensorEntity):
         }
 
     async def async_update(self):
-        try:
-            h1_state = self.hass.states.get(self.cfg[CONF_SENSOR1])
-            h2_state = self.hass.states.get(self.cfg[CONF_SENSOR2])
-            elev_state = self.hass.states.get(self.cfg[CONF_ELEVATION])
-            
-            h1 = float(h1_state.state if h1_state else 0)
-            h2 = float(h2_state.state if h2_state else 0)
-            elev = float(elev_state.state if elev_state else 0)
-            
-            _LOGGER.debug(f"Sensoren: h1={h1}, h2={h2}, elev={elev}")
-        except Exception as e:
-            _LOGGER.error(f"Fehler beim Lesen der Sensorwerte: {e}")
-            return
+        def _safe_float(entity):
+            if entity is None:
+                return 0.0
+            try:
+                return float(entity.state)
+            except (ValueError, TypeError):
+                return 0.0
+
+        h1_state = self.hass.states.get(self.cfg[CONF_SENSOR1])
+        h2_state = self.hass.states.get(self.cfg[CONF_SENSOR2])
+        elev_state = self.hass.states.get(self.cfg[CONF_ELEVATION])
+
+        h1 = _safe_float(h1_state)
+        h2 = _safe_float(h2_state)
+        elev = _safe_float(elev_state)
+
+        _LOGGER.debug(f"Sensoren: h1={h1}, h2={h2}, elev={elev}")
 
         sonne1 = self.cfg[CONF_SONNE1]
         wolke1 = self.cfg[CONF_WOLKE1]

@@ -1,12 +1,12 @@
 {
   "domain": "helligkeit_logic",
   "name": "Helligkeits-Logik",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "documentation": "https://github.com/Pasi81/helligkeit-logic",
   "requirements": [],
   "codeowners": ["@Pasi81"],
   "iot_class": "local_polling",
   "config_flow": true,
-  "icon": "branding/icon.png",
+  "icon": "mdi:weather-sunny",
   "logo": "branding/logo.png"
 }
