@@ -5,6 +5,21 @@
       "user": {
         "title": "Helligkeits-Logik konfigurieren",
         "description": "Wähle Sensoren und Schwellenwerte."
+      },
+      "reconfigure": {
+        "title": "Konfiguration anpassen",
+        "description": "Ändere die Sensoren und Schwellenwerte nach der Ersteinrichtung."
+      }
+    },
+    "abort": {
+      "reconfigure_successful": "Konfiguration aktualisiert"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Einstellungen anpassen",
+        "description": "Ändere die Sensoren und Schwellenwerte."
       }
     }
   }
