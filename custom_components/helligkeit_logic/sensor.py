@@ -44,6 +44,18 @@ class HelligkeitLogicSensor(SensorEntity):
         self.wechsel_wolken = 0
 
     @property
+    def icon(self):
+        if self.zustand == 2:
+            return "mdi:weather-sunny"
+        if self.zustand == 1:
+            return "mdi:weather-cloudy"
+        return "mdi:weather-night"
+
+    @property
+    def native_value(self):
+        return self.zustand
+
+    @property
     def state(self):
         return self.zustand
 
