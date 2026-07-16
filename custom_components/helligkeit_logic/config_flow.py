@@ -81,7 +81,7 @@ class HelligkeitOptionsFlow(config_entries.OptionsFlow):
             self.config_entry.async_update_entry(title=user_input.get(CONF_NAME, DEFAULT_NAME))
             return self.async_create_entry(title="", data=user_input)
 
-        return self.async_show_form(step_id="init", data_schema=vol.Schema({
+        schema = vol.Schema({
             vol.Required(CONF_NAME, default=current.get(CONF_NAME, DEFAULT_NAME)): str,
             vol.Required(CONF_SENSOR1, default=current.get(CONF_SENSOR1)): _sensor_selector(),
             vol.Required(CONF_SENSOR2, default=current.get(CONF_SENSOR2)): _sensor_selector(),
@@ -92,4 +92,6 @@ class HelligkeitOptionsFlow(config_entries.OptionsFlow):
             vol.Required(CONF_WOLKE2, default=current.get(CONF_WOLKE2, 3000)): int,
             vol.Required(CONF_TIME_SONNE, default=current.get(CONF_TIME_SONNE, 3)): int,
             vol.Required(CONF_TIME_WOLKE, default=current.get(CONF_TIME_WOLKE, 40)): int,
-        }))
+        })
+
+        return self.async_show_form(step_id="init", data_schema=schema)

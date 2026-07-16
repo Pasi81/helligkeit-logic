@@ -14,13 +14,5 @@
     "abort": {
       "reconfigure_successful": "Konfiguration aktualisiert"
     }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Einstellungen anpassen",
-        "description": "Ändere die Sensoren und Schwellenwerte."
-      }
-    }
   }
 }
