@@ -43,6 +43,13 @@ class HelligkeitLogicSensor(SensorEntity):
         self.wechsel_sonne = 0
         self.wechsel_wolken = 0
 
+    def _get_delay_minutes(self, key, default):
+        value = self.cfg.get(key, default)
+        try:
+            return max(float(value), 0.0)
+        except (TypeError, ValueError):
+            return float(default)
+
     @property
     def icon(self):
         if self.zustand == 2:
@@ -121,9 +128,18 @@ class HelligkeitLogicSensor(SensorEntity):
             status = 99
 
         now = datetime.now()
-        diff = (now - self.last_change).total_seconds() / 60
-        
-        _LOGGER.debug(f"Status: {status}, zustand: {self.zustand}, diff: {diff}")
+        diff = (now - self.last_change).total_seconds() / 60.0
+        delay_sonne = self._get_delay_minutes(CONF_TIME_SONNE, 3)
+        delay_wolke = self._get_delay_minutes(CONF_TIME_WOLKE, 40)
+
+        _LOGGER.debug(
+            "Status: %s, zustand: %s, diff_min: %.2f, delay_sonne: %.2f, delay_wolke: %.2f",
+            status,
+            self.zustand,
+            diff,
+            delay_sonne,
+            delay_wolke,
+        )
 
         if status == 0:
             self.zustand = 0
@@ -137,7 +153,7 @@ class HelligkeitLogicSensor(SensorEntity):
                 self.wechsel_sonne = 0
                 self.last_change = now
 
-            if self.wechsel_wolken == 1 and diff > self.cfg[CONF_TIME_WOLKE]:
+            if self.wechsel_wolken == 1 and diff >= delay_wolke:
                 self.zustand = 1
                 self.wechsel_wolken = 0
                 self.wechsel_sonne = 0
@@ -148,7 +164,7 @@ class HelligkeitLogicSensor(SensorEntity):
                 self.wechsel_wolken = 0
                 self.last_change = now
 
-            if (self.wechsel_sonne == 1 and diff > self.cfg[CONF_TIME_SONNE]) or self.zustand == 0:
+            if (self.wechsel_sonne == 1 and diff >= delay_sonne) or self.zustand == 0:
                 self.zustand = 2
                 self.wechsel_sonne = 0
                 self.wechsel_wolken = 0
