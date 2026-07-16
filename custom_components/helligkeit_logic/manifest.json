@@ -8,5 +8,5 @@
   "iot_class": "local_polling",
   "config_flow": true,
   "icon": "mdi:weather-sunny",
-  "logo": "branding/logo.png"
+  "logo": "branding/icon.png"
 }
