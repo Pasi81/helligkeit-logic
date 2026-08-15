@@ -136,7 +136,7 @@ class HelligkeitLogicSensor(SensorEntity):
         _LOGGER.debug(f"Konfiguration: sonne1={sonne1}, wolke1={wolke1}, sonne2={sonne2}, wolke2={wolke2}")
 
         elev_max = 65.0
-        elevmin = 0.0
+        elevmin = 3.0
 
         if elev >= elevmin:
             sonne1_b = sonne1 * elev / elev_max
