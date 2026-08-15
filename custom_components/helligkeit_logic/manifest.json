@@ -1,7 +1,7 @@
 {
   "domain": "helligkeit_logic",
   "name": "Helligkeits-Logik",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "documentation": "https://github.com/Pasi81/helligkeit-logic",
   "requirements": [],
   "codeowners": ["@Pasi81"],
