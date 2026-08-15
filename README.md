@@ -29,3 +29,11 @@ Basierend auf:
 - Schwellenwerte Sonne/Wolke
 - Zeitverzögerungen für Hysterese
 
+## Zusätzliche Entitäten
+
+Die Integration erstellt zusätzlich:
+
+- eine Berechnete Helligkeit-Entität
+- separate Entitäten für Nacht, Wolkig und Sonnig
+- den vorhandenen Statuswert mit Text und Übergangs-Attributen
+
