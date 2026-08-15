@@ -188,12 +188,17 @@ class HelligkeitLogicSensor(SensorEntity):
             self.last_change = now
 
         elif status == 1:
-            if self.zustand in (0, 2) and self.wechsel_wolken == 0:
+            if self.zustand == 2 and self.wechsel_wolken == 0:
                 self.wechsel_wolken = 1
                 self.wechsel_sonne = 0
                 self.last_change = now
 
-            if (self.wechsel_wolken == 1 and diff >= delay_wolke) or self.zustand == 0:
+            if self.wechsel_wolken == 1 and diff >= delay_wolke:
+                self.zustand = 1
+                self.wechsel_wolken = 0
+                self.wechsel_sonne = 0
+
+            if self.zustand == 0:
                 self.zustand = 1
                 self.wechsel_wolken = 0
                 self.wechsel_sonne = 0
